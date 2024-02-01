@@ -11,8 +11,8 @@ const authenticateToken = (req, res, next) => {
       return res.status(401).json({ error: "Invalid token" });
     }
     req.user = decoded;
+    next();
   });
-  next();
 };
 
 module.exports = authenticateToken;

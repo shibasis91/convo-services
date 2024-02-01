@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
 const db = require("./config/db/db");
@@ -8,6 +9,7 @@ const authenticateToken = require("./src/middlewares/authMiddleware");
 const port = process.env.PORT || 5000;
 
 app.use(express.json());
+app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("Backend apis for convo");
