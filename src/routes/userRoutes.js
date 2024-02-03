@@ -17,7 +17,10 @@ userRouter.get("/", async (req, res) => {
   }
   try {
     const matchingUsers = await User.find({
-      $or: [{ username: { $regex: search } }, { phone: { $regex: search } }],
+      $or: [
+        { username: { $regex: new RegExp(search, "i") } },
+        { phone: { $regex: search } },
+      ],
     });
     return res.json({ users: matchingUsers });
   } catch (err) {

@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
-const db = require("./config/db/db");
+require("./config/db/db");
 const authRouter = require("./src/routes/authRoutes");
 const userRouter = require("./src/routes/userRoutes");
 const authenticateToken = require("./src/middlewares/authMiddleware");
@@ -13,6 +13,10 @@ app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
   res.send("Backend apis for convo");
+});
+
+app.get("/healthcheck", (req, res) => {
+  res.status(200).json({ message: "OK" });
 });
 
 app.use("/api/auth", authRouter);
