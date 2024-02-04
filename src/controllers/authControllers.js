@@ -2,7 +2,21 @@ const User = require("../models/Users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const registerUsers = async (req, res) => {
+const verifyUser = async (req, res) => {
+  try {
+    const { phone } = req.body;
+    const user = await User.findOne({ phone });
+    if (!user) {
+      return res.status(401).json({ message: "New user" });
+    } else {
+      return res.status(200).json({ message: "User found" });
+    }
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+const registerUser = async (req, res) => {
   try {
     const { username, phone, pin } = req.body;
     const newUser = new User({ username, phone, pin });
@@ -22,7 +36,7 @@ const registerUsers = async (req, res) => {
   }
 };
 
-const loginUsers = async (req, res) => {
+const loginUser = async (req, res) => {
   try {
     const { phone, pin } = req.body;
     const user = await User.findOne({ phone });
@@ -40,5 +54,4 @@ const loginUsers = async (req, res) => {
   }
 };
 
-module.exports = registerUsers;
-module.exports = loginUsers;
+module.exports = { registerUser, loginUser, verifyUser };
